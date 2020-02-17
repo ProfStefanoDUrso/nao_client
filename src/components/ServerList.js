@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Button } from 'react-bootstrap';
 
 const api = 'http://polar-hamlet-18838.herokuapp.com';
 const path = '/list';
@@ -14,20 +14,34 @@ class ServerList extends React.Component {
   }
     
   componentDidMount() {
+
+    // const request = async () => {
+    //   const response = await fetch(api+path);
+      
+    //   const data = await response.json();
+    //   console.log(data);
+    //   this.setState({ books: data.books });
+  
+    // request();
+    // }    
     fetch(api + path)
       .then(response => response.json())
-      .then(data => this.setState({ books: data.books }));
+      .then(
+        data => this.setState({ books: data })
+        //data => console.log(data)
+        );    
   }
 
   render() {
+    
     return (
         <ListGroup>
             {this.state.books.map(item => (
             <ListGroup.Item key={item.code}>
-                <div>author: {item.author}</div>
-                <div>title: {item.title}</div>
-                <div>code: {item.code}</div>
-                <div>available: {item.available}</div>
+                <div>Author: {item.author}</div>
+                <div>Title: {item.title}</div>
+                <div>ISBN Code: {item.code}</div>
+                {((item.available == true) && (item.reserved == false)) ? <Button>PRENOTA</Button> : <div>NON DISPONIBILE</div>}
             </ListGroup.Item>
             ))}
         </ListGroup>
